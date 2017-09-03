@@ -35,12 +35,12 @@ class MainProgram:
         self.fr_principal.pack()
 
     def Comprimir_Entrada(self):
-        arreglo = algoritmo.createArray(self.txt_Entrada.get())
+        arreglo = algoritmo.Crear_Arreglo(self.txt_Entrada.get())
         arreglo = sorted(arreglo, key=lambda x: x[2])
         algoritmo.tuppleArray = arreglo
-        arbol = algoritmo.createTree(arreglo)
+        arbol = algoritmo.Crear_Arbol(arreglo)
         algoritmo.Crear_Tabla_Caracteres(arbol)
-        tabla_caracteres = algoritmo.characterTable
+        tabla_caracteres = algoritmo.tabla_caracteres
         self.Mostrar_Tabla(arreglo[::-1], tabla_caracteres)
         self.compress(self.txt_Entrada.get(), arbol)
         containerSimulator = tk.Label(self.fr_tabla, text="")
@@ -97,12 +97,12 @@ class MainProgram:
         return str(round((dynamicCoding / fixedCoding) * 100, 2)) + "%"
 
     def logica(self, contenido):
-        arreglo = algoritmo.createArray(contenido)
+        arreglo = algoritmo.Crear_Arreglo(contenido)
         arreglo = sorted(arreglo, key=lambda x: x[2])
         algoritmo.tuppleArray = arreglo
-        tree = algoritmo.createTree(arreglo)
+        tree = algoritmo.Crear_Arbol(arreglo)
         algoritmo.Crear_Tabla_Caracteres(tree)
-        dictionary = algoritmo.characterTable
+        dictionary = algoritmo.tabla_caracteres
         return arreglo, algoritmo, tree, dictionary
 
     def openFile(self):

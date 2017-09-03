@@ -1,24 +1,24 @@
-characterTable = {}
+tabla_caracteres = {}
 binStr = ""
 tuppleArray = []
 
 def Generar_Cadena_Binario(string):
     binary = ""
     for c in string:
-        binary += characterTable[c]
+        binary += tabla_caracteres[c]
     return binary + "1"
 
 
-def Crear_Tabla_Caracteres(currentNode, currentCode=""):
-    if type(currentNode[0]) != tuple:
-        characterTable[currentNode[0]] = currentCode
+def Crear_Tabla_Caracteres(nodo_actual, codigo_actual=""):
+    if type(nodo_actual[0]) != tuple:
+        tabla_caracteres[nodo_actual[0]] = codigo_actual
     else:
-        Crear_Tabla_Caracteres(currentNode[0], currentCode + "0")
-        Crear_Tabla_Caracteres(currentNode[1], currentCode + "1")
+        Crear_Tabla_Caracteres(nodo_actual[0], codigo_actual + "0")
+        Crear_Tabla_Caracteres(nodo_actual[1], codigo_actual + "1")
     return
 
 
-def createTree(arrayTupla):
+def Crear_Arbol(arrayTupla):
     for index in range(len(arrayTupla) - 1):
         arrayTupla = sorted(arrayTupla, key=lambda x: x[2])
         first = arrayTupla.pop(0)
@@ -30,7 +30,7 @@ def createTree(arrayTupla):
     return newTree
 
 
-def createArray(string):
+def Crear_Arreglo(string):
     tuppleDictionary = {}
     for c in string:
         if c in tuppleDictionary:
