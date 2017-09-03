@@ -1,6 +1,6 @@
 tabla_caracteres = {}
-binStr = ""
-tuppleArray = []
+cadena_binaria = ""
+arreglo_nodos = []
 
 def Generar_Cadena_Binario(string):
     binary = ""
@@ -18,16 +18,16 @@ def Crear_Tabla_Caracteres(nodo_actual, codigo_actual=""):
     return
 
 
-def Crear_Arbol(arrayTupla):
-    for index in range(len(arrayTupla) - 1):
-        arrayTupla = sorted(arrayTupla, key=lambda x: x[2])
-        first = arrayTupla.pop(0)
-        second = arrayTupla.pop(0)
-        newTupple = (first, second, first[2] + second[2])
-        arrayTupla.append(newTupple)
+def Crear_Arbol(arreglo_nodos):
+    for i in range(len(arreglo_nodos) - 1):
+        arreglo_nodos = sorted(arreglo_nodos, key=lambda x: x[2])
+        primero = arreglo_nodos.pop(0)
+        segundo = arreglo_nodos.pop(0)
+        nuevo_nodo = (primero, segundo, primero[2] + segundo[2])
+        arreglo_nodos.append(nuevo_nodo)
 
-    newTree = arrayTupla[0]
-    return newTree
+    nuevo_arbol = arreglo_nodos[0]
+    return nuevo_arbol
 
 
 def Crear_Arreglo(string):

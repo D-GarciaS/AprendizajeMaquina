@@ -37,7 +37,7 @@ class MainProgram:
     def Comprimir_Entrada(self):
         arreglo = algoritmo.Crear_Arreglo(self.txt_Entrada.get())
         arreglo = sorted(arreglo, key=lambda x: x[2])
-        algoritmo.tuppleArray = arreglo
+        algoritmo.arreglo_nodos = arreglo
         arbol = algoritmo.Crear_Arbol(arreglo)
         algoritmo.Crear_Tabla_Caracteres(arbol)
         tabla_caracteres = algoritmo.tabla_caracteres
@@ -81,25 +81,25 @@ class MainProgram:
         efficiencyLabel = tk.Label( self.fr_salida,
             text="Eficiencia: " + self.Calculo_eficiencia(txt_entrada, cadena_binaria)
         )
-        algoritmo.binStr = cadena_binaria
+        algoritmo.cadena_binaria = cadena_binaria
         efficiencyLabel.pack()
 
         treeWindow = tk.Toplevel(self.root)
         self.treeWindow = TreeWindow(treeWindow, arbol)
 
-    def Calculo_eficiencia(self, base, binary):
-        if base == "" or binary == "":
+    def Calculo_eficiencia(self, base, binario):
+        if base == "" or binario == "":
             return ""
 
-        fixedCoding = (math.ceil(
+        longitud_fixed_coding = (math.ceil(
             math.log2(len(''.join(set(base))))) * len(base)) / 8.0 + 0.0
-        dynamicCoding = math.ceil(len(binary) / 8.0) + 0.0
-        return str(round((dynamicCoding / fixedCoding) * 100, 2)) + "%"
+        longitud_dynamic_coding = math.ceil(len(binario) / 8.0) + 0.0
+        return str(round((longitud_dynamic_coding / longitud_fixed_coding) * 100, 2)) + "%"
 
     def logica(self, contenido):
         arreglo = algoritmo.Crear_Arreglo(contenido)
         arreglo = sorted(arreglo, key=lambda x: x[2])
-        algoritmo.tuppleArray = arreglo
+        algoritmo.arreglo_nodos = arreglo
         tree = algoritmo.Crear_Arbol(arreglo)
         algoritmo.Crear_Tabla_Caracteres(tree)
         dictionary = algoritmo.tabla_caracteres
