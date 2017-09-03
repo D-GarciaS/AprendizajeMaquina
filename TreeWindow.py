@@ -13,26 +13,22 @@ class TreeWindow:
     self.frame = tk.Frame(self.master)
     
     huffTree, pos = self.buildTree(tree)
-    
-    self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
-    self.quitButton.pack()
 
-    f = Figure(figsize=(15, 8), dpi=100)
+    f = Figure(figsize=(15, 8))
     a = f.add_subplot(111)
 
     nx.draw(huffTree, pos=pos, with_labels=True, ax=a, node_color='g',  node_shape='v', alpha=0.5, arrows=True)
     labels = nx.get_edge_attributes(huffTree, 'weight')
     nx.draw_networkx_edge_labels(huffTree, pos, edge_labels=labels, ax=a , bbox=dict(facecolor='none', edgecolor='green', boxstyle='round'))
 
-    
     self.plotFrame = tk.Frame(self.frame)
     self.plotFrame.pack()
-
+    self.frame.pack()
+    self.quitButton = tk.Button(self.frame, text = 'Salir', width = 25, command = self.close_windows)
+    self.quitButton.pack()
     canvas = FigureCanvasTkAgg(f, self.plotFrame)
     canvas.show()
     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-
-    self.frame.pack()
 
   def close_windows(self):
     self.master.destroy()

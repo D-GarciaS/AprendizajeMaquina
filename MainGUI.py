@@ -1,10 +1,8 @@
+import huffman as algoritmo
+import math
+import string
 import tkinter as tk
 import tkinter.ttk as ttk
-import huffman as huff
-import math
-import bitstring
-import codecs
-import string
 from tkinter import filedialog
 from TreeWindow import TreeWindow
 
@@ -12,55 +10,52 @@ from TreeWindow import TreeWindow
 class MainProgram:
     def __init__(self, root):
         self.root = root
+        self.fr_principal = tk.Frame(self.root)
 
-        self.frame = tk.Frame(self.root)
+        self.fr_input = tk.Frame(self.fr_principal)
+        self.fr_tabla = tk.Frame(self.fr_principal)
+        self.fr_salida = tk.Frame(self.fr_principal)
 
-        self.inputFrame = tk.Frame(self.frame)
-        self.tableFrame = tk.Frame(self.frame)
-        self.codedTextFrame = tk.Frame(self.frame)
-        self.textLabel = tk.Label(self.inputFrame, text="Introduzca el texto a codificar")
-        self.textToCompress = tk.StringVar()
-        self.textBox = tk.Entry(self.inputFrame, textvar=self.textToCompress)
-        self.textButton = tk.Button(
-            self.inputFrame, text="Comprimir", command=self.compressText)
-        self.fileLabel = tk.Button(
-            self.inputFrame, text="Seleccione un archivo de texto a codificar", command=self.openFile)
+        self.lbl_introducir = tk.Label(self.fr_input, text="Introduzca el texto a codificar")
+        self.txt_Entrada = tk.StringVar()
+        self.tbx_Entrada = tk.Entry(self.fr_input, textvar=self.txt_Entrada)
+        self.btn_comprimir = tk.Button(
+            self.fr_input, text="Comprimir", command=self.Comprimir_Entrada)
+        self.lbl_archivo = tk.Button(
+            self.fr_input, text="Seleccione un archivo de texto a codificar", command=self.openFile)
 
-        self.inputFrame.pack()
-        self.codedTextFrame.pack()
-        self.tableFrame.pack(side=tk.BOTTOM)
-        self.textLabel.pack()
-        self.textBox.pack()
-        self.textButton.pack()
-        self.fileLabel.pack()
+        self.fr_input.pack()
+        self.fr_salida.pack()
+        self.fr_tabla.pack()
+        self.lbl_introducir.pack()
+        self.tbx_Entrada.pack()
+        self.btn_comprimir.pack()
+        self.lbl_archivo.pack()
 
-        self.frame.pack()
+        self.fr_principal.pack()
 
-    def compressText(self):
-        """Compresses text from the textbox"""
-        if self.textToCompress.get() == "":
-            return
-        array = huff.createArray(self.textToCompress.get())
+    def Comprimir_Entrada(self):
+        array = algoritmo.createArray(self.txt_Entrada.get())
         array = sorted(array, key=lambda x: x[2])
-        huff.tuppleArray = array
-        tree = huff.createTree(array)
-        huff.createDictionary(tree)
-        dictionary = huff.characterTable
+        algoritmo.tuppleArray = array
+        tree = algoritmo.createTree(array)
+        algoritmo.createDictionary(tree)
+        dictionary = algoritmo.characterTable
         self.showTable(array[::-1], dictionary)
-        self.compress(self.textToCompress.get(), tree)
-        containerSimulator = tk.Label(self.tableFrame, text="")
+        self.compress(self.txt_Entrada.get(), tree)
+        containerSimulator = tk.Label(self.fr_tabla, text="")
 
     def showTable(self, array, dictionary):
         """Shows the table"""
-        self.clearFrame(self.tableFrame)
-        table = ttk.Treeview(self.tableFrame)
+        self.clearFrame(self.fr_tabla)
+        table = ttk.Treeview(self.fr_tabla)
         table["columns"] = ("freq", "code")
-        table.heading('#0', text='Caracter', anchor='center')
-        table.column('#0', anchor='center')
+        table.heading('#0', text='Caracter')
+        table.column('#0')
         table.heading('freq', text='Frecuencia')
-        table.column('freq', anchor='center', width=80)
+        table.column('freq')
         table.heading('code', text='Codigo')
-        table.column('code', anchor='center', width=80)
+        table.column('code')
         counter = 0
         for tuples in array:
             if tuples[0] in string.printable:
@@ -69,7 +64,7 @@ class MainProgram:
                 counter += 1
 
         table.pack()
-        containerSimulator = tk.Label(self. tableFrame, text="")
+        containerSimulator = tk.Label(self. fr_tabla, text="")
         containerSimulator.pack()
 
     def clearFrame(self, frame):
@@ -77,20 +72,20 @@ class MainProgram:
             widget.destroy()
 
     def compress(self, textStr, tree):
-        self.clearFrame(self.codedTextFrame)
-        binary = huff.createBinary(textStr)
-        end = len(binary)
-        originalLabel = tk.Label(self.codedTextFrame, text="Original " + textStr )
+        self.clearFrame(self.fr_salida)
+        binary = algoritmo.createBinary(textStr)
+        end = len(binary) - 1 
+        originalLabel = tk.Label(self.fr_salida, text="Original " + textStr)
         originalLabel.pack()
         compessedLabel = tk.Label(
-            self.codedTextFrame, text="Codificada: " + binary[0:end])
+            self.fr_salida, text="Codificada: " + binary[0:end])
         compessedLabel.pack()
         efficiencyLabel = tk.Label(
-            self.codedTextFrame,
+            self.fr_salida,
             text="Eficiencia: " + self.getEfficiency(textStr, binary)
         )
         efficiencyLabel.pack()
-        huff.binStr = binary
+        algoritmo.binStr = binary
 
         treeWindow = tk.Toplevel(self.root)
         self.treeWindow = TreeWindow(treeWindow, tree)
@@ -104,29 +99,34 @@ class MainProgram:
         dynamicCoding = math.ceil(len(binary) / 8.0) + 0.0
         return str(round((dynamicCoding / fixedCoding) * 100, 2)) + "%"
 
+    def logica(self, contents):
+        array = algoritmo.createArray(contents)
+        array = sorted(array, key=lambda x: x[2])
+        algoritmo.tuppleArray = array
+        tree = algoritmo.createTree(array)
+        algoritmo.createDictionary(tree)
+        dictionary = algoritmo.characterTable
+        return array, algoritmo, tree, dictionary
+
+
     def openFile(self):
         self.root.withdraw()
         file_path = filedialog.askopenfilename()
-        if file_path == "":
-            self.root.deiconify()
-            return
+        with open(file_path, 'r') as myfile:
+            data = myfile.read().replace('\n', '')
+        fileContents = readFromFile(file_path)
 
-        fileContents = huff.readFromFile(file_path)
-        array = huff.createArray(fileContents)
-        array = sorted(array, key=lambda x: x[2])
-        huff.tuppleArray = array
-        tree = huff.createTree(array)
-        huff.createDictionary(tree)
-        dictionary = huff.characterTable
+        array, huff, tree, dictionary = logica(self, fileContents)
+
         self.showTable(array[::-1], dictionary)
         self.root.deiconify()
         self.compress(fileContents, tree)
+    
 
 def main():
     root = tk.Tk()
     app = MainProgram(root)
     root.mainloop()
-
 
 if __name__ == '__main__':
     main()

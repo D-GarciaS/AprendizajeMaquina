@@ -1,10 +1,6 @@
-import codecs
-import json
-
 characterTable = {}
 binStr = ""
 tuppleArray = []
-
 
 def createBinary(string):
     binary = ""
@@ -49,8 +45,3 @@ def createArray(string):
 
     return tuppleArray
 
-def readFromFile(filename):
-    newString = ""
-    with open(filename, 'r') as myfile:
-        data=myfile.read().replace('\n', '')
-    return data
