@@ -35,62 +35,59 @@ class MainProgram:
         self.fr_principal.pack()
 
     def Comprimir_Entrada(self):
-        array = algoritmo.createArray(self.txt_Entrada.get())
-        array = sorted(array, key=lambda x: x[2])
-        algoritmo.tuppleArray = array
-        tree = algoritmo.createTree(array)
-        algoritmo.createDictionary(tree)
-        dictionary = algoritmo.characterTable
-        self.showTable(array[::-1], dictionary)
-        self.compress(self.txt_Entrada.get(), tree)
+        arreglo = algoritmo.createArray(self.txt_Entrada.get())
+        arreglo = sorted(arreglo, key=lambda x: x[2])
+        algoritmo.tuppleArray = arreglo
+        arbol = algoritmo.createTree(arreglo)
+        algoritmo.Crear_Tabla_Caracteres(arbol)
+        tabla_caracteres = algoritmo.characterTable
+        self.Mostrar_Tabla(arreglo[::-1], tabla_caracteres)
+        self.compress(self.txt_Entrada.get(), arbol)
         containerSimulator = tk.Label(self.fr_tabla, text="")
 
-    def showTable(self, array, dictionary):
+    def Mostrar_Tabla(self, arreglo, tabla_caracteres):
         """Shows the table"""
         self.clearFrame(self.fr_tabla)
-        table = ttk.Treeview(self.fr_tabla)
-        table["columns"] = ("freq", "code")
-        table.heading('#0', text='Caracter')
-        table.column('#0')
-        table.heading('freq', text='Frecuencia')
-        table.column('freq')
-        table.heading('code', text='Codigo')
-        table.column('code')
-        counter = 0
-        for tuples in array:
-            if tuples[0] in string.printable:
-                table.insert('', 'end', text=tuples[0], values=(
-                    tuples[2], dictionary[tuples[0]]))
-                counter += 1
+        tabla = ttk.Treeview(self.fr_tabla)
+        tabla["columns"] = ("caracter", "frecuencia", "codigo")
+        tabla.heading('#0', text='Caracter')
+        tabla.column('#0')
+        tabla.heading('#1', text='Frecuencia')
+        tabla.column('#1')
+        tabla.heading('#2', text='Codigo')
+        tabla.column('#2')
+        for registros in arreglo:
+            if registros[0] in string.printable:
+                tabla.insert('', 'end', text=registros[0], values=(
+                    registros[2], tabla_caracteres[registros[0]]))
 
-        table.pack()
+        tabla.pack()
         containerSimulator = tk.Label(self. fr_tabla, text="")
         containerSimulator.pack()
 
-    def clearFrame(self, frame):
-        for widget in frame.winfo_children():
+    def clearFrame(self, fr_principal):
+        for widget in fr_principal.winfo_children():
             widget.destroy()
 
-    def compress(self, textStr, tree):
+    def compress(self, txt_entrada, arbol):
         self.clearFrame(self.fr_salida)
-        binary = algoritmo.createBinary(textStr)
-        end = len(binary) - 1 
-        originalLabel = tk.Label(self.fr_salida, text="Original " + textStr)
+        cadena_binaria = algoritmo.Generar_Cadena_Binario(txt_entrada)
+        end = len(cadena_binaria) - 1
+        originalLabel = tk.Label(self.fr_salida, text="Original " + txt_entrada)
         originalLabel.pack()
         compessedLabel = tk.Label(
-            self.fr_salida, text="Codificada: " + binary[0:end])
+            self.fr_salida, text="Codificada: " + cadena_binaria[0:end])
         compessedLabel.pack()
-        efficiencyLabel = tk.Label(
-            self.fr_salida,
-            text="Eficiencia: " + self.getEfficiency(textStr, binary)
+        efficiencyLabel = tk.Label( self.fr_salida,
+            text="Eficiencia: " + self.Calculo_eficiencia(txt_entrada, cadena_binaria)
         )
+        algoritmo.binStr = cadena_binaria
         efficiencyLabel.pack()
-        algoritmo.binStr = binary
 
         treeWindow = tk.Toplevel(self.root)
-        self.treeWindow = TreeWindow(treeWindow, tree)
+        self.treeWindow = TreeWindow(treeWindow, arbol)
 
-    def getEfficiency(self, base, binary):
+    def Calculo_eficiencia(self, base, binary):
         if base == "" or binary == "":
             return ""
 
@@ -99,29 +96,27 @@ class MainProgram:
         dynamicCoding = math.ceil(len(binary) / 8.0) + 0.0
         return str(round((dynamicCoding / fixedCoding) * 100, 2)) + "%"
 
-    def logica(self, contents):
-        array = algoritmo.createArray(contents)
-        array = sorted(array, key=lambda x: x[2])
-        algoritmo.tuppleArray = array
-        tree = algoritmo.createTree(array)
-        algoritmo.createDictionary(tree)
+    def logica(self, contenido):
+        arreglo = algoritmo.createArray(contenido)
+        arreglo = sorted(arreglo, key=lambda x: x[2])
+        algoritmo.tuppleArray = arreglo
+        tree = algoritmo.createTree(arreglo)
+        algoritmo.Crear_Tabla_Caracteres(tree)
         dictionary = algoritmo.characterTable
-        return array, algoritmo, tree, dictionary
-
+        return arreglo, algoritmo, tree, dictionary
 
     def openFile(self):
         self.root.withdraw()
-        file_path = filedialog.askopenfilename()
-        with open(file_path, 'r') as myfile:
+        txt_ruta = filedialog.askopenfilename()
+        with open(txt_ruta, 'r') as myfile:
             data = myfile.read().replace('\n', '')
-        fileContents = readFromFile(file_path)
+        txt_contenido = data
 
-        array, huff, tree, dictionary = logica(self, fileContents)
+        arreglo, huff, arbol, tabla_caracteres = logica(self, txt_contenido)
 
-        self.showTable(array[::-1], dictionary)
+        self.Mostrar_Tabla(arreglo[::-1], tabla_caracteres)
         self.root.deiconify()
-        self.compress(fileContents, tree)
-    
+        self.compress(txt_contenido, arbol)
 
 def main():
     root = tk.Tk()

@@ -2,19 +2,19 @@ characterTable = {}
 binStr = ""
 tuppleArray = []
 
-def createBinary(string):
+def Generar_Cadena_Binario(string):
     binary = ""
     for c in string:
         binary += characterTable[c]
     return binary + "1"
 
 
-def createDictionary(currentNode, currentCode=""):
+def Crear_Tabla_Caracteres(currentNode, currentCode=""):
     if type(currentNode[0]) != tuple:
         characterTable[currentNode[0]] = currentCode
     else:
-        createDictionary(currentNode[0], currentCode + "0")
-        createDictionary(currentNode[1], currentCode + "1")
+        Crear_Tabla_Caracteres(currentNode[0], currentCode + "0")
+        Crear_Tabla_Caracteres(currentNode[1], currentCode + "1")
     return
 
 
