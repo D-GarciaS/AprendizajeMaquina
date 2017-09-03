@@ -1,0 +1,13 @@
+.vscode/
+<<<<<<< HEAD
+*.txt
+=======
+*.txt
+*.mp3
+.idea/
+*.DS_Store
+__pycache__
+
+#virtualenv
+huffman/
+>>>>>>> tree
