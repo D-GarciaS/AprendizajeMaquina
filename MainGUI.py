@@ -22,7 +22,7 @@ class MainProgram:
         self.btn_comprimir = tk.Button(
             self.fr_input, text="Comprimir", command=self.Comprimir_Entrada)
         self.lbl_archivo = tk.Button(
-            self.fr_input, text="Seleccione un archivo de texto a codificar", command=self.openFile)
+            self.fr_input, text="Seleccione un archivo de texto a codificar", command=self.abrir_archivo)
 
         self.fr_input.pack()
         self.fr_salida.pack()
@@ -105,7 +105,7 @@ class MainProgram:
         dictionary = algoritmo.tabla_caracteres
         return arreglo, algoritmo, tree, dictionary
 
-    def openFile(self):
+    def abrir_archivo(self):
         self.root.withdraw()
         txt_ruta = filedialog.askopenfilename()
         with open(txt_ruta, 'r') as myfile:
