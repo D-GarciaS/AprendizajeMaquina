@@ -24,7 +24,7 @@ class TreeWindow:
     self.plotFrame = tk.Frame(self.frame)
     self.plotFrame.pack()
     self.frame.pack()
-    self.quitButton = tk.Button(self.frame, text = 'Salir', width = 25, command = self.close_windows)
+    self.quitButton = tk.Button(self.frame, text = 'Salir',  command = self.close_windows)
     self.quitButton.pack()
     canvas = FigureCanvasTkAgg(f, self.plotFrame)
     canvas.show()

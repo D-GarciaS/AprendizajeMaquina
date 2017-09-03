@@ -31,17 +31,17 @@ def Crear_Arbol(arreglo_nodos):
 
 
 def Crear_Arreglo(string):
-    tuppleDictionary = {}
+    tabla_nodos = {}
     for c in string:
-        if c in tuppleDictionary:
-            tuppleDictionary[c] += 1    
+        if c in tabla_nodos:
+            tabla_nodos[c] += 1    
         else:
-            tuppleDictionary[c] = 1
+            tabla_nodos[c] = 1
 
-    tuppleArray = []
-    for tupple in tuppleDictionary.items():
-        newTuple = (tupple[0], tupple[0], tupple[1])
-        tuppleArray.append(newTuple)
+    nuevo_arreglo_nodos = []
+    for nuevo_nodo in tabla_nodos.items():
+        newTuple = (nuevo_nodo[0], nuevo_nodo[0], nuevo_nodo[1])
+        nuevo_arreglo_nodos.append(newTuple)
 
-    return tuppleArray
+    return nuevo_arreglo_nodos
 

@@ -1,9 +1,9 @@
-import huffman as algoritmo
 import math
 import string
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import filedialog
+import huffman as algoritmo
 from TreeWindow import TreeWindow
 
 
@@ -47,7 +47,7 @@ class MainProgram:
 
     def Mostrar_Tabla(self, arreglo, tabla_caracteres):
         """Shows the table"""
-        self.clearFrame(self.fr_tabla)
+        self.Limpiar_Frame(self.fr_tabla)
         tabla = ttk.Treeview(self.fr_tabla)
         tabla["columns"] = ("caracter", "frecuencia", "codigo")
         tabla.heading('#0', text='Caracter')
@@ -65,12 +65,12 @@ class MainProgram:
         containerSimulator = tk.Label(self. fr_tabla, text="")
         containerSimulator.pack()
 
-    def clearFrame(self, fr_principal):
+    def Limpiar_Frame(self, fr_principal):
         for widget in fr_principal.winfo_children():
             widget.destroy()
 
     def compress(self, txt_entrada, arbol):
-        self.clearFrame(self.fr_salida)
+        self.Limpiar_Frame(self.fr_salida)
         cadena_binaria = algoritmo.Generar_Cadena_Binario(txt_entrada)
         end = len(cadena_binaria) - 1
         originalLabel = tk.Label(self.fr_salida, text="Original " + txt_entrada)
@@ -119,9 +119,9 @@ class MainProgram:
         self.compress(txt_contenido, arbol)
 
 def main():
-    root = tk.Tk()
-    app = MainProgram(root)
-    root.mainloop()
+    base = tk.Tk()
+    programa = MainProgram(base)
+    base.mainloop()
 
 if __name__ == '__main__':
     main()
