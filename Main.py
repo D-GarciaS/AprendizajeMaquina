@@ -3,8 +3,8 @@ import string
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import filedialog
-import huffman as algoritmo
-from TreeWindow import TreeWindow
+import AlgoHuff as algoritmo
+from Grafo import TreeWindow
 
 
 class MainProgram:
@@ -16,7 +16,8 @@ class MainProgram:
         self.fr_tabla = tk.Frame(self.fr_principal)
         self.fr_salida = tk.Frame(self.fr_principal)
 
-        self.lbl_introducir = tk.Label(self.fr_input, text="Introduzca el texto a codificar")
+        self.lbl_introducir = tk.Label(
+            self.fr_input, text="Introduzca el texto a codificar")
         self.txt_Entrada = tk.StringVar()
         self.tbx_Entrada = tk.Entry(self.fr_input, textvar=self.txt_Entrada)
         self.btn_comprimir = tk.Button(
@@ -73,24 +74,23 @@ class MainProgram:
         self.Limpiar_Frame(self.fr_salida)
         cadena_binaria = algoritmo.Generar_Cadena_Binario(txt_entrada)
         end = len(cadena_binaria) - 1
-        originalLabel = tk.Label(self.fr_salida, text="Original " + txt_entrada)
-        originalLabel.pack()
-        compessedLabel = tk.Label(
+        lbl_original = tk.Label(self.fr_salida, text="Original " + txt_entrada)
+        lbl_original.pack()
+        lbl_comprimida = tk.Label(
             self.fr_salida, text="Codificada: " + cadena_binaria[0:end])
-        compessedLabel.pack()
-        efficiencyLabel = tk.Label( self.fr_salida,
-            text="Eficiencia: " + self.Calculo_eficiencia(txt_entrada, cadena_binaria)
-        )
+        lbl_comprimida.pack()
+        lbl_eficiencia = tk.Label(self.fr_salida,
+                                  text="Eficiencia: " +
+                                  self.Calculo_eficiencia(
+                                      txt_entrada, cadena_binaria)
+                                  )
         algoritmo.cadena_binaria = cadena_binaria
-        efficiencyLabel.pack()
+        lbl_eficiencia.pack()
 
         treeWindow = tk.Toplevel(self.root)
         self.treeWindow = TreeWindow(treeWindow, arbol)
 
     def Calculo_eficiencia(self, base, binario):
-        if base == "" or binario == "":
-            return ""
-
         longitud_fixed_coding = (math.ceil(
             math.log2(len(''.join(set(base))))) * len(base)) / 8.0 + 0.0
         longitud_dynamic_coding = math.ceil(len(binario) / 8.0) + 0.0
@@ -100,10 +100,10 @@ class MainProgram:
         arreglo = algoritmo.Crear_Arreglo(contenido)
         arreglo = sorted(arreglo, key=lambda x: x[2])
         algoritmo.arreglo_nodos = arreglo
-        tree = algoritmo.Crear_Arbol(arreglo)
-        algoritmo.Crear_Tabla_Caracteres(tree)
+        arbol = algoritmo.Crear_Arbol(arreglo)
+        algoritmo.Crear_Tabla_Caracteres(arbol)
         dictionary = algoritmo.tabla_caracteres
-        return arreglo, algoritmo, tree, dictionary
+        return arreglo, algoritmo, arbol, dictionary
 
     def abrir_archivo(self):
         self.root.withdraw()
@@ -118,10 +118,12 @@ class MainProgram:
         self.root.deiconify()
         self.compress(txt_contenido, arbol)
 
+
 def main():
     base = tk.Tk()
     programa = MainProgram(base)
     base.mainloop()
+
 
 if __name__ == '__main__':
     main()
