@@ -109,7 +109,7 @@ class MainProgram:
             data = myfile.read().replace('\n', '')
         txt_contenido = data
 
-        arreglo, huff, arbol, tabla_caracteres = logica(self, txt_contenido)
+        arreglo, huff, arbol, tabla_caracteres = self.logica(txt_contenido)
 
         self.Mostrar_Tabla(arreglo[::-1], tabla_caracteres)
         self.root.deiconify()
