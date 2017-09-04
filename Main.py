@@ -43,11 +43,10 @@ class MainProgram:
         algoritmo.Crear_Tabla_Caracteres(arbol)
         tabla_caracteres = algoritmo.tabla_caracteres
         self.Mostrar_Tabla(arreglo[::-1], tabla_caracteres)
-        self.compress(self.txt_Entrada.get(), arbol)
+        self.Comprimir(self.txt_Entrada.get(), arbol)
         containerSimulator = tk.Label(self.fr_tabla, text="")
 
     def Mostrar_Tabla(self, arreglo, tabla_caracteres):
-        """Shows the table"""
         self.Limpiar_Frame(self.fr_tabla)
         tabla = ttk.Treeview(self.fr_tabla)
         tabla["columns"] = ("caracter", "frecuencia", "codigo")
@@ -70,7 +69,7 @@ class MainProgram:
         for widget in fr_principal.winfo_children():
             widget.destroy()
 
-    def compress(self, txt_entrada, arbol):
+    def Comprimir(self, txt_entrada, arbol):
         self.Limpiar_Frame(self.fr_salida)
         cadena_binaria = algoritmo.Generar_Cadena_Binario(txt_entrada)
         end = len(cadena_binaria) - 1
@@ -99,8 +98,8 @@ class MainProgram:
         algoritmo.arreglo_nodos = arreglo
         arbol = algoritmo.Crear_Arbol(arreglo)
         algoritmo.Crear_Tabla_Caracteres(arbol)
-        dictionary = algoritmo.tabla_caracteres
-        return arreglo, algoritmo, arbol, dictionary
+        tabla_caracteres = algoritmo.tabla_caracteres
+        return arreglo, algoritmo, arbol, tabla_caracteres
 
     def abrir_archivo(self):
         self.root.withdraw()
@@ -113,7 +112,7 @@ class MainProgram:
 
         self.Mostrar_Tabla(arreglo[::-1], tabla_caracteres)
         self.root.deiconify()
-        self.compress(txt_contenido, arbol)
+        self.Comprimir(txt_contenido, arbol)
 
 
 def main():
