@@ -12,15 +12,15 @@ class TreeWindow:
         self.master = master
         self.frame = tk.Frame(self.master)
 
-        huffTree, pos = self.Construir_Arbol(arbol)
+        arbol_huff, pos = self.Construir_Arbol(arbol)
 
         figure = Figure()
         a = figure.add_subplot(111)
 
-        nx.draw(huffTree, pos=pos, with_labels=True, ax=a,
+        nx.draw(arbol_huff, pos=pos, with_labels=True, ax=a,
                 node_color='g',  node_shape='s', alpha=0.5, arrows=True)
-        labels = nx.get_edge_attributes(huffTree, 'weight')
-        nx.draw_networkx_edge_labels(huffTree, pos, edge_labels=labels, ax=a, bbox=dict(
+        labels = nx.get_edge_attributes(arbol_huff, 'weight')
+        nx.draw_networkx_edge_labels(arbol_huff, pos, edge_labels=labels, ax=a, bbox=dict(
             facecolor='none', edgecolor='green', boxstyle='round'))
 
         self.plotFrame = tk.Frame(self.frame)
@@ -37,10 +37,10 @@ class TreeWindow:
         self.master.destroy()
 
     def Construir_Arbol(self, arbol):
-        edges = Get_Vertices(arbol)
+        vertices = Get_Vertices(arbol)
 
         G = nx.DiGraph()
-        G.add_weighted_edges_from(edges)
+        G.add_weighted_edges_from(vertices)
 
         return G, hierarchy_pos(G, arbol[2])
 
