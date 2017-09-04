@@ -91,10 +91,7 @@ class MainProgram:
         self.treeWindow = TreeWindow(treeWindow, arbol)
 
     def Calculo_eficiencia(self, base, binario):
-        longitud_fixed_coding = (math.ceil(
-            math.log2(len(''.join(set(base))))) * len(base)) / 8.0 + 0.0
-        longitud_dynamic_coding = math.ceil(len(binario) / 8.0) + 0.0
-        return str(round((longitud_dynamic_coding / longitud_fixed_coding) * 100, 2)) + "%"
+        return "%"
 
     def logica(self, contenido):
         arreglo = algoritmo.Crear_Arreglo(contenido)
